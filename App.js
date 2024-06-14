@@ -1,20 +1,54 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { View, Text, StyleSheet,Button } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-export default function App() {
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Text>Home Screen</Text>
+      <Button
+        title="Pergi ke Progate"
+        onPress={() => {
+          navigation.navigate('Progate', {
+            name: 'Ninja Ken',
+            language: 'React Native',
+          })
+        }}
+      />
     </View>
-  );
+  )
+}
+
+const ProgateScreen = ({ route, navigation }) => {
+  return (
+    <View style={styles.container}>
+      <Text>Welcome to Progate, {route.params.name}!</Text>
+      <Text>Ayo belajar {route.params.language}!</Text>
+      <Button title="Kembali" onPress={() => navigation.goBack()} />
+    </View>
+  )
+}
+
+const Stack = createNativeStackNavigator()
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name= "Progate" component={ProgateScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+})
+
+export default App
